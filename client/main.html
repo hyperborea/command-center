@@ -1,0 +1,62 @@
+<head>
+  <title>Command Center</title>
+</head>
+
+<template name="command">
+  <div class="ui inverted menu">
+    <a href="{{urlFor route='command.home'}}" class="item">
+      <i class="terminal icon"></i>
+      Command Center
+    </a>
+    <div class="right menu">
+      <a class="item js-nuke">
+        <i class="military icon"></i> nuke
+      </a>
+    </div>
+  </div>
+
+  {{> input}}
+
+  <div class="ui two column grid segment">
+    <div class="column">
+      {{> history}}
+    </div>
+
+    <div class="column code-output">
+      {{> output}}
+    </div>
+  </div>
+</template>
+
+<template name="input">
+  <div class="ui center aligned basic segment">
+    <form class="ui form">
+      <div class="ui left icon input">
+        <input class="cmd" autofocus autocomplete="off" />
+        <i class="dollar icon"></i>
+      </div>
+    </form>
+  </div>
+</template>
+
+<template name="history">
+  <div class="ui selection list">
+    {{#each actions}}
+      <div class="item {{itemClass}}">
+        <i class="right floated {{statusClass}}"></i>
+        <i class={{activeClass}}></i>
+        <div class="content">
+          {{command}}
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</template>
+
+<template name="output">
+  <div class="ui list">
+    {{#each rows}}
+      <div class="item">{{this}}</div>
+    {{/each}}
+  </div>
+</template>
