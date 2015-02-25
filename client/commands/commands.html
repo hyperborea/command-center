@@ -1,0 +1,20 @@
+<template name="commands">
+  <div class="ui basic segment">
+    <form class="ui form">
+      <div class="ui left icon input field">
+        <input name="command" placeholder="New Command" required>
+        <i class="code icon"></i>
+      </div>
+      <button type="submit" class="ui primary button">Save</button>
+    </form>
+  </div>
+
+  {{#each commands}}
+    <div class="ui segment">
+      <code>{{command}}</code>
+      <div class="ui right floated basic red icon circular button js-delete">
+        <i class="trash icon"></i>
+      </div>
+    </div>
+  {{/each}}
+</template>

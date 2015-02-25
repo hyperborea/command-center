@@ -7,6 +7,7 @@ blaze-tools@1.0.2
 boilerplate-generator@1.0.2
 callback-hook@1.0.2
 check@1.0.4
+coffeescript@1.0.5
 ddp@1.0.14
 deps@1.0.6
 ejson@1.0.5
@@ -57,3 +58,5 @@ underscore@1.0.2
 url@1.0.3
 webapp@1.1.6
 webapp-hashing@1.0.2
+wizonesolutions:underscore-string@1.0.0
+zimme:iron-router-active@1.0.1
