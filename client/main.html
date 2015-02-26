@@ -9,13 +9,13 @@
 
 <template name="topbar">
   <div class="ui inverted menu">
-    <a href="{{urlFor route='command.center'}}" class="item {{isActiveRoute regex='command.center'}}">
+    <a href="{{urlFor route='home'}}" class="item {{isActiveRoute regex='home'}}">
       <i class="terminal icon"></i>
       Command Center
     </a>
-    <a href="{{urlFor route='command.list'}}" class="item {{isActiveRoute regex='command.list'}}">
-      <i class="code icon"></i>
-      Commands
+    <a href="{{urlFor route='applications'}}" class="item {{isActiveRoute regex='applications'}}">
+      <i class="cube icon"></i>
+      Applications
     </a>
 
     <div class="right menu">

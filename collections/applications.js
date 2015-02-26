@@ -1,0 +1,1 @@
+Applications = new Mongo.Collection('applications');

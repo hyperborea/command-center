@@ -4,7 +4,7 @@ Meteor.subscribe('actions', function () {
   Session.set('selectedAction', action ? action._id : null);
 });
 
-Meteor.subscribe('commands');
+Meteor.subscribe('applications');
 
 
 Router.configure({
@@ -12,11 +12,10 @@ Router.configure({
 });
 
 Router.route('/', {
-  name: 'command.center',
+  name: 'home',
   template: 'center'
 });
 
-Router.route('/commands', {
-  name: 'command.list',
-  template: 'commands'
+Router.route('/applications', {
+  template: 'applications'
 });

@@ -1,0 +1,66 @@
+<template name="applications">
+  <div class="ui basic segment">
+    {{> applicationForm}}
+  </div>
+
+  <div class="ui basic segment">
+    {{#each applications}}
+      {{> applicationForm}}
+    {{/each}}
+  </div>
+</template>
+
+<template name="applicationForm">
+  <div class="ui form">
+    <div class="fields">
+      <div class="four wide field">
+        <input name="name" placeholder="Application Name" value={{name}} required>
+      </div>
+      <div class="eight wide field ui left icon input">
+        <input name="command" placeholder="Command" value={{command}} required>
+        <i class="code icon"></i>
+      </div>
+
+      <div class="four wide field">
+        <div class="ui buttons">
+          <div class="ui button js-reset">Cancel</div>
+          <div class="or"></div>
+          <div class="ui positive button js-save">{{saveLabel}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="applicationFormOld">
+  <div class="ui basic segment">
+    <form class="ui form">
+
+      <div class="two fields">
+        <div class="ui input field">
+          <input name="name" placeholder="Application Name" required>
+        </div>
+        <div class="ui left icon input field">
+          <input name="command" placeholder="Command" required>
+          <i class="code icon"></i>
+        </div>
+      </div>
+
+      <div class="ui buttons">
+        <button type="reset" class="ui button">Cancel</button>
+        <div class="or"></div>
+        <button type="submit" class="ui positive button">Save</button>
+      </div>
+
+    </form>
+  </div>
+</template>
+
+<template name="application">
+  <div class="ui segment">
+    <b>{{name}}</b> - <code>{{command}}</code>
+    <div class="ui right floated basic red icon circular button js-delete">
+      <i class="trash icon"></i>
+    </div>
+  </div>
+</template>
