@@ -21,9 +21,31 @@
 <template name="input">
   <div class="ui center aligned basic segment">
     <form class="ui form">
-      <div class="ui left icon input">
-        <input class="cmd" autofocus autocomplete="off" />
-        <i class="dollar icon"></i>
+      <div class="fields">
+          
+        <div class="ten wide field">
+          <div class="ui left icon input">
+            <input name="command" autofocus autocomplete="off" />
+            <i class="dollar icon"></i>
+          </div>
+        </div>
+
+        <div class="six wide field">
+          <div class="ui search selection dropdown">
+            <input type="hidden" name="application">
+            <div class="default text">
+              <i class="cube icon"></i>
+              choose application
+            </div>
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              {{#each applications}}
+                <div class="item" data-value="{{command}}">{{name}}</div>
+              {{/each}}
+            </div>
+          </div>
+        </div>
+
       </div>
     </form>
   </div>

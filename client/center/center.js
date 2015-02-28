@@ -13,21 +13,39 @@ var cycleCommand = function (offset) {
   }
 };
 
-Template.input.events({
-  'submit': function (e, template) {
-    e.preventDefault();
-    
-    var input = $(template.find('input'));
-    Session.set('output', '');
 
-    Meteor.call('cmd', input.val(), function (err, _id) {
-      input.val('');
-      cycleIndex = 0;
-      Session.set('selectedAction', _id);
+Template.input.helpers({
+  applications: function () {
+    return Applications.find();
+  }
+});
+
+Template.input.events({
+  'change input[name=application]': function (e, template) {
+    e.preventDefault();
+    var input = $(template.find('input[name=command]:first'));
+
+    input.val(e.target.value);
+    $(template.find('.ui.dropdown')).dropdown('restore defaults');
+    setTimeout(function () {
+      input.focus();
     });
   },
 
-  'keydown': function (e, template) {
+  'keydown input[name=command]': function (e, template) {
+    if (e.keyCode == 13) { // enter
+      e.preventDefault();
+    
+      var input = $(template.find('input[name=command]'));
+      Session.set('output', '');
+
+      Meteor.call('cmd', input.val(), function (err, _id) {
+        input.val('');
+        cycleIndex = 0;
+        Session.set('selectedAction', _id);
+      });
+    }
+
     if (e.keyCode == 38) { // arrow-up
       e.preventDefault();
       $(template.find('input')).val( cycleCommand(1) );
@@ -38,6 +56,10 @@ Template.input.events({
     }
   }
 });
+
+Template.input.rendered = function () {
+  this.$('.ui.dropdown').dropdown();
+};
 
 
 Template.history.helpers({

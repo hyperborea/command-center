@@ -19,3 +19,7 @@ Router.route('/', {
 Router.route('/applications', {
   template: 'applications'
 });
+
+Router.route('/workflow', {
+  template: 'workflow'
+});

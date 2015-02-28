@@ -7,6 +7,10 @@ Template.applications.helpers({
 Template.applicationForm.helpers({
   saveLabel: function () {
     return this._id ? 'Save' : 'Create';
+  },
+
+  saved: function () {
+    return this._id;
   }
 });
 
@@ -26,10 +30,8 @@ Template.applicationForm.events({
   'click .js-reset': function (e, template) {
     template.find('input[name=name]').value = this.name || '';
     template.find('input[name=command]').value = this.command || '';
-  }
-});
+  },
 
-Template.application.events({
   'click .js-delete': function (e, template) {
     Applications.remove(this._id);
   }
