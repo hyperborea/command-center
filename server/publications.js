@@ -5,3 +5,7 @@ Meteor.publish('actions', function () {
 Meteor.publish('applications', function () {
   return Applications.find();
 });
+
+Meteor.publish('processes', function () {
+  return Processes.find();
+});

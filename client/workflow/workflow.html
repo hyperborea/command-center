@@ -1,5 +1,28 @@
 <template name="workflow">
+  <div class="ui center aligned segment">
+    <svg class="workflow"></svg>
+  </div>
+
   <div class="ui segment">
-    <svg></svg>
+    <h4 class="ui header">Processes</h4>
+    
+    {{> processForm}}
+
+    <div class="ui list">
+      {{#each rootProcesses}}
+        {{> processForm}}
+      {{/each}}
+    </div>
+  </div>
+</template>
+
+<template name="processForm">
+  <div class="item">
+    {{name}}
+    <div class="ui list">
+      {{#each dependencies}}
+        {{> processForm}}
+      {{/each}}
+    </div>
   </div>
 </template>
