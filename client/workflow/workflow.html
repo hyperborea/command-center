@@ -6,23 +6,36 @@
   <div class="ui segment">
     <h4 class="ui header">Processes</h4>
     
-    {{> processForm}}
-
     <div class="ui list">
       {{#each rootProcesses}}
-        {{> processForm}}
+        {{> process}}
       {{/each}}
     </div>
   </div>
 </template>
 
-<template name="processForm">
+<template name="process">
   <div class="item">
-    {{name}}
+    <div class="content">
+      {{name}}
+
+      {{#if isDependency}}
+        <div class="ui basic compact mini red icon circular button js-remove-dep" style="margin-left: 2em">
+          <i class="remove icon"></i>
+        </div>
+      {{/if}}
+    </div>
+
     <div class="ui list">
       {{#each dependencies}}
-        {{> processForm}}
+        {{> process}}
       {{/each}}
+      <select>
+        <option value="">- add dependeny for {{name}} -</option>
+        {{#each processes}}
+          <option value={{_id}}>{{name}}</option>
+        {{/each}}
+      </select>
     </div>
   </div>
 </template>

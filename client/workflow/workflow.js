@@ -30,7 +30,6 @@ Template.workflow.rendered = function () {
     // data
     var rootProcess = Processes.findOne({root: true});
     var data = procWithDependencies(rootProcess);
-    console.log(data);
 
     // layout
     var tree = d3.layout.tree().size([height, width-padding]),
@@ -60,8 +59,32 @@ Template.workflow.rendered = function () {
 };
 
 
-Template.processForm.helpers({
+Template.process.helpers({
   dependencies: function () {
-    return Processes.find({ _id: { $in: this.dependencies || [] } }, { sort: { name: 1 } });
+    return Processes.find({ _id: { $in: this.dependencies || [] } });
+  },
+
+  processes: function () {
+    return Processes.find();
+  },
+
+  isDependency: function () {
+    return Template.parentData();
+  }
+});
+
+Template.process.events({
+  'click .js-remove-dep': function (e, template) {
+    e.stopPropagation();
+
+    var parent = Template.parentData();
+    Processes.update(parent._id, { $pull: { dependencies: this._id } });
+  },
+
+  'change select': function (e, template) {
+    e.stopPropagation();
+
+    Processes.update(this._id, { $addToSet: { dependencies: e.target.value } });
+    $(e.target).val('');
   }
 });

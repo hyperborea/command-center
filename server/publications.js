@@ -7,5 +7,5 @@ Meteor.publish('applications', function () {
 });
 
 Meteor.publish('processes', function () {
-  return Processes.find();
+  return Processes.find({}, { sort: { name: 1 } });
 });
