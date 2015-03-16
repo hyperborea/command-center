@@ -6,6 +6,6 @@ Meteor.publish('applications', function () {
   return Applications.find();
 });
 
-Meteor.publish('processes', function () {
-  return Processes.find({}, { sort: { name: 1 } });
+Meteor.publish('tasks', function () {
+  return Tasks.find({}, { sort: { name: 1 } });
 });

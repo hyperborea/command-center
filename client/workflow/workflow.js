@@ -1,17 +1,17 @@
 Template.workflow.helpers({
-  rootProcesses: function () {
-    return Processes.find({root: true});
+  rootTasks: function () {
+    return Tasks.find({root: true});
   }
 });
 
-function procWithDependencies (proc) {
-  proc = proc || {};
+function taskWithDependencies (task) {
+  task = task || {};
 
-  proc.children = _.map(proc.dependencies || [], function (depId) {
-    return procWithDependencies(Processes.findOne(depId));
+  task.children = _.map(task.dependencies || [], function (depId) {
+    return taskWithDependencies(Tasks.findOne(depId));
   });
 
-  return proc;
+  return task;
 }
 
 Template.workflow.rendered = function () {
@@ -28,8 +28,8 @@ Template.workflow.rendered = function () {
 
   Tracker.autorun(function() {
     // data
-    var rootProcess = Processes.findOne({root: true});
-    var data = procWithDependencies(rootProcess);
+    var rootProcess = Tasks.findOne({root: true});
+    var data = taskWithDependencies(rootProcess);
 
     // layout
     var tree = d3.layout.tree().size([height, width-padding]),
@@ -59,32 +59,40 @@ Template.workflow.rendered = function () {
 };
 
 
-Template.process.helpers({
+Template.task.helpers({
   dependencies: function () {
-    return Processes.find({ _id: { $in: this.dependencies || [] } });
+    return Tasks.find({ _id: { $in: this.dependencies || [] } });
   },
 
-  processes: function () {
-    return Processes.find();
+  tasks: function () {
+    return Tasks.find();
   },
 
   isDependency: function () {
     return Template.parentData();
+  },
+
+  showSelect: function () {
+    return Session.equals('showSelectForProcess', this._id);
   }
 });
 
-Template.process.events({
+Template.task.events({
   'click .js-remove-dep': function (e, template) {
     e.stopPropagation();
 
     var parent = Template.parentData();
-    Processes.update(parent._id, { $pull: { dependencies: this._id } });
+    Tasks.update(parent._id, { $pull: { dependencies: this._id } });
+  },
+
+  'click .js-show-select': function (e, template) {
+    Session.set('showSelectForProcess', this._id);
   },
 
   'change select': function (e, template) {
     e.stopPropagation();
 
-    Processes.update(this._id, { $addToSet: { dependencies: e.target.value } });
+    Tasks.update(this._id, { $addToSet: { dependencies: e.target.value } });
     $(e.target).val('');
   }
 });

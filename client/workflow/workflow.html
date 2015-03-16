@@ -3,39 +3,54 @@
     <svg class="workflow"></svg>
   </div>
 
-  <div class="ui segment">
-    <h4 class="ui header">Processes</h4>
-    
-    <div class="ui list">
-      {{#each rootProcesses}}
-        {{> process}}
-      {{/each}}
+  <div class="ui two column grid segment">
+    <div class="column">
+      <h3 class="ui dividing header">Tasks</h3>
+    </div>
+
+    <div class="ui vertical divider"></div>
+
+    <div class="column">
+      <h3 class="ui dividing header">Dependencies</h3>
+      
+      <div class="ui list">
+        {{#each rootTasks}}
+          {{> task}}
+        {{/each}}
+      </div>
     </div>
   </div>
 </template>
 
-<template name="process">
+<template name="task">
   <div class="item">
     <div class="content">
       {{name}}
 
+      <div class="ui basic compact mini blue icon circular button js-show-select" style="margin-left: 2em">
+        <i class="add icon"></i>
+      </div>
+
       {{#if isDependency}}
-        <div class="ui basic compact mini red icon circular button js-remove-dep" style="margin-left: 2em">
-          <i class="remove icon"></i>
+        <div class="ui basic compact mini red icon circular button js-remove-dep">
+          <i class="minus icon"></i>
         </div>
       {{/if}}
     </div>
 
     <div class="ui list">
+      {{#if showSelect}}
+        <select>
+          <option value="">- add dependeny for {{name}} -</option>
+          {{#each tasks}}
+            <option value={{_id}}>{{name}}</option>
+          {{/each}}
+        </select>
+      {{/if}}
+
       {{#each dependencies}}
-        {{> process}}
+        {{> task}}
       {{/each}}
-      <select>
-        <option value="">- add dependeny for {{name}} -</option>
-        {{#each processes}}
-          <option value={{_id}}>{{name}}</option>
-        {{/each}}
-      </select>
     </div>
   </div>
 </template>

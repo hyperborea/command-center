@@ -1,0 +1,36 @@
+<template name="applicationFormParameter">
+  <div class="ui parameter form">
+    <div class="fields">
+      <div class="one wide field"></div>
+      <div class="three wide field">
+        <input name="param" value={{param}} placeholder="Parameter">
+      </div>
+      <div class="field">
+        <select name="type" value={{type}} class="ui dropdown">
+          <option value="">- choose type -</option>
+          {{#each types}}
+            <option value={{this}} {{selected}}>{{this}}</option>
+          {{/each}}
+        </select>
+      </div>
+      <div class="field" style="padding: .5em">
+        <div class="ui toggle checkbox">
+          <input name="required" type="checkbox" checked={{required}}>
+          <label>required</label>
+        </div>
+      </div>
+
+      <div class="one wide field">
+        {{#if isNew}}
+          <div class="ui basic right floated green icon circular button js-add-parameter">
+            <i class="plus icon"></i>
+          </div>
+        {{else}}
+          <div class="ui basic right floated red icon circular button js-remove-parameter">
+            <i class="minus icon"></i>
+          </div>
+        {{/if}}        
+      </div>
+    </div>
+  </div>
+</template>

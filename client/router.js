@@ -5,7 +5,7 @@ Meteor.subscribe('actions', function () {
 });
 
 Meteor.subscribe('applications');
-Meteor.subscribe('processes');
+Meteor.subscribe('tasks');
 
 
 Router.configure({

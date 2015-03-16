@@ -1,0 +1,48 @@
+<template name="applicationForm">
+  <div class="ui application form">
+    <div class="fields">
+      <div class="four wide field">
+        <input name="name" placeholder="Application Name" value={{name}}>
+      </div>
+      <div class="eight wide field ui left icon input">
+        <input name="command" placeholder="Command" value={{command}}>
+        <i class="code icon"></i>
+      </div>
+
+      <div class="one wide field">
+        {{#if saved}}
+        <div class="ui basic {{#if showParameters}}active{{/if}} teal icon button js-toggle-parameters">
+          <i class="list layout icon"></i>
+          {{parametersCount}}
+        </div>
+        {{/if}}
+      </div>
+
+      <div class="three wide field">
+        <div class="ui buttons">
+          <div class="ui reset button">Cancel</div>
+          <div class="or"></div>
+          <div class="ui positive submit button">{{saveLabel}}</div>
+        </div>
+
+        {{#if saved}}
+        <div class="ui right floated basic red icon circular button js-delete">
+          <i class="trash icon"></i>
+        </div>
+        {{/if}}
+      </div>
+    </div>
+  </div>
+
+  {{#if showParameters}}
+    {{#with type="" isNew=true}}
+      {{> applicationFormParameter}}
+    {{/with}}
+
+    {{#each parameters}}
+      {{> applicationFormParameter}}
+    {{/each}}
+
+    <div class="ui divider"></div>
+  {{/if}}
+</template>

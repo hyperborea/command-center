@@ -28,13 +28,13 @@ Meteor.methods({
     var cmd = parts[0];
     var args = parts.splice(1, parts.length);
 
-    var _id = Actions.insert({command: command});
-
     var proc = spawn(cmd, args, {
       env: {
         'PYTHONUNBUFFERED': 'true',
       }
     });
+
+    var _id = Actions.insert({command: command, pid: proc.pid});
 
     proc.stdout.on('data', Meteor.bindEnvironment(function (data) {
       updateOutput(_id, readStream(data));
@@ -48,11 +48,23 @@ Meteor.methods({
       updateOutput(_id, String(error));
     }));
 
-    proc.on('close', Meteor.bindEnvironment(function (code) {
+    proc.on('close', Meteor.bindEnvironment(function (code, signal) {
+      if (_.isNull(code)) {
+        updateOutput(_id, "[system] Process was closed with signal " + signal);
+        code = -1;
+      }
+
       Actions.update(_id, {$set: {exitCode: code}});
     }));
 
     return _id;
+  },
+
+  kill: function (_id) {
+    proc = Actions.findOne(_id);
+    if (proc && proc.pid && _.isNull(proc.exitCode)) {
+      process.kill(proc.pid, 'SIGTERM');
+    }
   },
 
   nuke: function () {

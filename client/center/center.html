@@ -1,7 +1,7 @@
 <template name="center">
   {{#contentFor "toolbox"}}
     <a class="item js-nuke">
-      <i class="military icon"></i> nuke
+      <i class="military icon"></i> clear history
     </a>
   {{/contentFor}}
 
@@ -21,15 +21,16 @@
 <template name="input">
   <div class="ui center aligned basic segment">
     <form class="ui form">
-      <div class="fields">
-          
-        <div class="ten wide field">
-          <div class="ui left icon input">
-            <input name="command" autofocus autocomplete="off" />
-            <i class="dollar icon"></i>
-          </div>
+      <div class="field">
+        <div class="ui left icon input">
+          <input name="command" autofocus autocomplete="off" />
+          <i class="dollar icon"></i>
         </div>
+      </div>
 
+      <div class="ui horizontal divider">or</div>
+
+      <div class="fields">
         <div class="six wide field">
           <div class="ui search selection dropdown">
             <input type="hidden" name="application">
@@ -45,7 +46,6 @@
             </div>
           </div>
         </div>
-
       </div>
     </form>
   </div>
@@ -55,8 +55,11 @@
   <div class="ui selection list">
     {{#each actions}}
       <div class="item {{itemClass}}">
-        <i class="right floated {{statusClass}}"></i>
-        <i class={{activeClass}}></i>
+        <i class="right floated {{statusIcon}}"></i>
+        {{#if isRunning}}
+          <div class="ui right floated basic compact mini button js-kill">kill</div>
+        {{/if}}
+        <i class={{activeIcon}}></i>
         <div class="content">
           {{command}}
         </div>

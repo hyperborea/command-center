@@ -70,10 +70,10 @@ Template.history.helpers({
   itemClass: function () {
     return Session.equals('selectedAction', this._id) ? 'active': null;
   },
-  activeClass: function () {
+  activeIcon: function () {
     return Session.equals('selectedAction', this._id) ? 'unhide icon': 'angle right icon';
   },
-  statusClass: function () {
+  statusIcon: function () {
     switch (this.exitCode) {
       case null:
         return 'spinner loading icon';
@@ -82,12 +82,19 @@ Template.history.helpers({
       default:
         return 'remove red icon';
     }
+  },
+  isRunning: function () {
+    return _.isNull(this.exitCode);
   }
 });
 
 Template.history.events({
   'click .item': function (e, template) {
     Session.set('selectedAction', this._id);
+  },
+
+  'click .js-kill': function (e, template) {
+    Meteor.call('kill', this._id);
   }
 });
 
