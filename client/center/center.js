@@ -13,25 +13,7 @@ var cycleCommand = function (offset) {
   }
 };
 
-
-Template.input.helpers({
-  applications: function () {
-    return Applications.find();
-  }
-});
-
 Template.input.events({
-  'change input[name=application]': function (e, template) {
-    e.preventDefault();
-    var input = $(template.find('input[name=command]:first'));
-
-    input.val(e.target.value);
-    $(template.find('.ui.dropdown')).dropdown('restore defaults');
-    setTimeout(function () {
-      input.focus();
-    });
-  },
-
   'keydown input[name=command]': function (e, template) {
     if (e.keyCode == 13) { // enter
       e.preventDefault();
@@ -39,7 +21,7 @@ Template.input.events({
       var input = $(template.find('input[name=command]'));
       Session.set('output', '');
 
-      Meteor.call('cmd', input.val(), function (err, _id) {
+      Meteor.call('runCommand', input.val(), function (err, _id) {
         input.val('');
         cycleIndex = 0;
         Session.set('selectedAction', _id);
@@ -57,8 +39,47 @@ Template.input.events({
   }
 });
 
-Template.input.rendered = function () {
+Template.inputApplication.helpers({
+  applications: function () {
+    return Applications.find();
+  },
+
+  selectedApplication: function () {
+    return Session.get('selectedApplication');
+  }
+});
+
+Template.inputApplication.events({
+  'change input[name=application]': function (e, template) {
+    var application = Applications.findOne(e.target.value);
+    Session.set('selectedApplication', application);
+  },
+
+  'click .submit.button': function (e, template) {
+    var application = Session.get('selectedApplication');
+    if (application) {
+      Meteor.call('runApplication', application._id, function (err, actionId) {
+        Session.set('selectedAction', actionId);
+      });
+    }
+  }
+});
+
+Template.inputApplication.rendered = function () {
   this.$('.ui.dropdown').dropdown();
+};
+
+Template.inputApplicationParameter.helpers({
+  'isType': function () {
+    for (var i = 0; i < arguments.length; i++) {
+      if (arguments[i] === this.type) return true;
+    }
+    return false;
+  }
+});
+
+Template.inputApplicationParameter.rendered = function () {
+  this.$('.ui.checkbox').checkbox();
 };
 
 

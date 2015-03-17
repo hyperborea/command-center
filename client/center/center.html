@@ -19,7 +19,7 @@
 </template>
 
 <template name="input">
-  <div class="ui center aligned basic segment">
+  <div class="ui basic segment">
     <form class="ui form">
       <div class="field">
         <div class="ui left icon input">
@@ -30,24 +30,60 @@
 
       <div class="ui horizontal divider">or</div>
 
-      <div class="fields">
-        <div class="six wide field">
-          <div class="ui search selection dropdown">
-            <input type="hidden" name="application">
-            <div class="default text">
-              <i class="cube icon"></i>
-              choose application
-            </div>
-            <i class="dropdown icon"></i>
-            <div class="menu">
-              {{#each applications}}
-                <div class="item" data-value="{{command}}">{{name}}</div>
-              {{/each}}
-            </div>
-          </div>
+      {{> inputApplication}}
+    </form>
+  </div>
+</template>
+
+<template name="inputApplication">
+  <div class="fields">
+    <div class="six wide field">
+      <div class="ui fluid labeled icon search dropdown basic button">
+        <i class="cube icon"></i>
+        <span class="text">choose application</span>
+
+        <input type="hidden" name="application" value={{selectedApplication._id}}>
+        <div class="menu">
+          {{#each applications}}
+            <div class="item" data-value="{{_id}}">{{name}}</div>
+          {{/each}}
         </div>
       </div>
-    </form>
+    </div>
+
+    <div class="ten wide field">
+      {{#if selectedApplication}}
+        <div class="ui left labeled basic icon submit button">
+          <i class="icon play"></i> run
+        </div>
+      {{/if}}
+    </div>
+  </div>
+
+  <div class="three fields">
+    {{#each selectedApplication.parameters}}
+      {{> inputApplicationParameter}}
+    {{/each}}            
+  </div>
+</template>
+
+<template name="inputApplicationParameter">
+  <div class="field">
+    {{#if isType 'text' 'month'}}
+      <div class="ui right labeled input">
+        <input type="text" name={{param}} placeholder={{param}}>
+        {{#if required}}
+          <div class="ui tag label">required</div>
+        {{/if}}
+      </div>
+    {{/if}}
+
+    {{#if isType 'bool'}}
+      <div class="ui toggle checkbox" style="margin: .5em">
+        <label>{{param}}</label>
+        <input type="checkbox" name="{{param}}">
+      </div>
+    {{/if}}
   </div>
 </template>
 
@@ -57,7 +93,7 @@
       <div class="item {{itemClass}}">
         <i class="right floated {{statusIcon}}"></i>
         {{#if isRunning}}
-          <div class="ui right floated basic compact mini button js-kill">kill</div>
+          <div class="ui right floated basic circular compact mini button js-kill" style="margin-right: 1em">kill</div>
         {{/if}}
         <i class={{activeIcon}}></i>
         <div class="content">

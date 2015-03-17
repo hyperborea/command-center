@@ -23,7 +23,7 @@ var updateOutput = function (_id, buffer) {
 
 
 Meteor.methods({
-  cmd: function (command) {
+  runCommand: function (command) {
     var parts = command.split(' ');
     var cmd = parts[0];
     var args = parts.splice(1, parts.length);
@@ -60,8 +60,14 @@ Meteor.methods({
     return _id;
   },
 
+  runApplication: function (appId, parameters) {
+    var app = Applications.findOne(appId);
+    var paramString = parameters ? " " + parameters.join(" ") : "";
+    return Meteor.call('runCommand', app.command + paramString);
+  },
+
   kill: function (_id) {
-    proc = Actions.findOne(_id);
+    var proc = Actions.findOne(_id);
     if (proc && proc.pid && _.isNull(proc.exitCode)) {
       process.kill(proc.pid, 'SIGTERM');
     }
@@ -71,5 +77,3 @@ Meteor.methods({
     Actions.remove({});
   }
 });
-
-// python /Users/sven/spotify/test.py
