@@ -3,7 +3,7 @@ Meteor.publish('actions', function () {
 });
 
 Meteor.publish('applications', function () {
-  return Applications.find();
+  return Applications.find({}, {sort: {name: 1}});
 });
 
 Meteor.publish('tasks', function () {

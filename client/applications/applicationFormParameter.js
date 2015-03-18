@@ -4,26 +4,11 @@ Template.applicationFormParameter.rendered = function () {
   // Initialise components.
   template.$('.ui.dropdown').dropdown();
   template.$('.ui.checkbox').checkbox();
-
-  template.$('.parameter.form').form({
-    param: {
-      identifier: 'param',
-      // rules: [{ type: 'empty' }]
-    },
-    type: {
-      identifier: 'type',
-      // rules: [{ type: 'empty' }]
-    },
-    required: {
-      identifier: 'required'
-    }
-  });
+  template.$('.parameter.form').form();
 
   // Blaze reuses DOM elements, make sure to update components on data changes.
   template.autorun(function () {
-    var data = Blaze.getData();
-    template.$('.parameter.form').form('set values', data);
-    template.$('.ui.dropdown').dropdown('set value', data.type);
+    template.$('.parameter.form').form('set values', Blaze.getData());
   });
 };
 

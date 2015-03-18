@@ -2,9 +2,18 @@
   <div class="ui parameter form">
     <div class="fields">
       <div class="one wide field"></div>
-      <div class="three wide field">
+
+      <div class="field">
         <input name="param" value={{param}} placeholder="Parameter">
       </div>
+
+      <div class="field" style="padding: .5em">
+        <div class="ui checkbox">
+          <input name="kw" type="checkbox" checked={{kw}}>
+          <label>kw</label>
+        </div>
+      </div>
+
       <div class="field">
         <select name="type" value={{type}} class="ui dropdown">
           <option value="">- choose type -</option>
@@ -13,6 +22,11 @@
           {{/each}}
         </select>
       </div>
+
+      <div class="field">
+        <input name="default" value={{default}} placeholder="Default">
+      </div>
+
       <div class="field" style="padding: .5em">
         <div class="ui toggle checkbox">
           <input name="required" type="checkbox" checked={{required}}>

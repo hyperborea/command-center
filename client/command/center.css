@@ -1,0 +1,16 @@
+.code-output {
+  background-color: #252525;
+  color: rgb(31, 235, 31);
+  font-family: monospace;
+  font-size: 1.5em;
+}
+
+.code-output .js-export {
+  display: none;
+}
+.code-output:hover .js-export {
+  display: inline-block;
+  position: absolute;
+  top: 2em;
+  right: 2em;
+}

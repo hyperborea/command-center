@@ -23,14 +23,16 @@ var updateOutput = function (_id, buffer) {
 
 
 Meteor.methods({
-  runCommand: function (command) {
+  runCommand: function (command, path) {
     var parts = command.split(' ');
     var cmd = parts[0];
     var args = parts.splice(1, parts.length);
 
     var proc = spawn(cmd, args, {
+      cwd: path,
       env: {
-        'PYTHONUNBUFFERED': 'true',
+        'PYTHONUNBUFFERED' : 'true',
+        'PYTHONPATH'       : path
       }
     });
 
@@ -60,10 +62,27 @@ Meteor.methods({
     return _id;
   },
 
-  runApplication: function (appId, parameters) {
-    var app = Applications.findOne(appId);
-    var paramString = parameters ? " " + parameters.join(" ") : "";
-    return Meteor.call('runCommand', app.command + paramString);
+  runApplication: function (request) {
+    var app = Applications.findOne(request.applicationId);
+    var paramString = "";
+
+    for (var i=0; i<app.parameters.length; i++) {
+      var p = app.parameters[i];
+      var providedValue = request.hasOwnProperty(p.param) ? String( request[p.param] ) : null;
+
+      if (providedValue) {
+        if (p.kw) {
+          paramString += " " + p.param + " " + providedValue;
+        } else {
+          paramString += " " + providedValue;
+        }
+      }
+      else if (p.required) {
+        throw new Meteor.Error( 400, "Missing required parameter: " + p.param );
+      }
+    }
+
+    return Meteor.call('runCommand', app.command + paramString, app.path);
   },
 
   kill: function (_id) {

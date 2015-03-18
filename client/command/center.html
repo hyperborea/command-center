@@ -1,0 +1,49 @@
+<template name="center">
+  {{#contentFor "toolbox"}}
+    <a class="item js-nuke">
+      <i class="military icon"></i> clear history
+    </a>
+  {{/contentFor}}
+
+  {{> commandForm}}
+
+  <div class="ui two column grid segment">
+    <div class="column">
+      {{> commandHistory}}
+    </div>
+
+    <div class="column code-output">
+      {{> commandOutput}}
+    </div>
+  </div>
+</template>
+
+<template name="commandHistory">
+  <div class="ui selection list">
+    {{#each actions}}
+      <div class="item {{itemClass}}">
+        <i class="right floated {{statusIcon}}"></i>
+        {{#if isRunning}}
+          <div class="ui right floated basic circular compact mini button js-kill" style="margin-right: 1em">kill</div>
+        {{/if}}
+        <i class={{activeIcon}}></i>
+        <div class="content">
+          {{command}}
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</template>
+
+<template name="commandOutput">
+  <div class="ui list">
+    {{#each rows}}
+      <div class="item">{{this}}</div>
+    {{/each}}
+  </div>
+
+  <div class="ui mini inverted green basic circular button js-export">
+    <i class="cloud download icon"></i>
+    download
+  </div>
+</template>

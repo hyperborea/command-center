@@ -1,0 +1,73 @@
+<template name="commandForm">
+  <div class="ui basic segment">
+    <form class="ui form">
+      <div class="field">
+        <div class="ui left icon input">
+          <input name="command" autofocus autocomplete="off" />
+          <i class="dollar icon"></i>
+        </div>
+      </div>
+    </form>
+    
+    <div class="ui horizontal divider">or</div>
+
+    {{> inputApplication}}
+  </div>
+</template>
+
+<template name="inputApplication">
+  <div class="ui form">
+    <div class="fields">
+      <div class="six wide field">
+        <div class="ui fluid labeled icon search dropdown basic button">
+          <i class="cube icon"></i>
+          <span class="text">choose application</span>
+
+          <input type="hidden" name="applicationId" value={{selectedApplication._id}}>
+          <div class="menu">
+            {{#each applications}}
+              <div class="item" data-value="{{_id}}">{{name}}</div>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+
+      <div class="ten wide field">
+        {{#if selectedApplication}}
+          <div class="ui left labeled icon basic green submit button">
+            <i class="icon play"></i> run
+          </div>
+        {{/if}}
+      </div>
+    </div>
+
+    <div class="three fields">
+      {{#each selectedApplication.parameters}}
+        {{> inputApplicationParameter}}
+      {{/each}}            
+    </div>
+  </div> 
+</template>
+
+<template name="inputApplicationParameter">
+  <div class="field">
+    <!-- <label>{{param}}</label> -->
+
+    {{#if isType 'text' 'month'}}
+      <div class="ui labeled input">
+        <div class="ui label">{{param}}</div>
+        <input type="text" name={{param}} placeholder={{param}}>
+        <!-- {{#if required}}
+          <div class="ui tag label">required</div>
+        {{/if}} -->
+      </div>
+    {{/if}}
+
+    {{#if isType 'bool'}}
+      <div class="ui toggle checkbox" style="margin: .5em">
+        <input type="checkbox" name="{{param}}">
+        <label>{{param}}</label>
+      </div>
+    {{/if}}
+  </div>
+</template>
