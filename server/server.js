@@ -21,47 +21,47 @@ var updateOutput = function (_id, buffer) {
   });
 };
 
+var runCommand = function (command, path) {
+  var parts = command.split(' ');
+  var cmd = parts[0];
+  var args = parts.splice(1, parts.length);
+
+  var proc = spawn(cmd, args, {
+    cwd: path,
+    env: {
+      'PYTHONUNBUFFERED' : 'true',
+      'PYTHONPATH'       : path
+    }
+  });
+
+  var _id = Actions.insert({command: command, pid: proc.pid});
+
+  proc.stdout.on('data', Meteor.bindEnvironment(function (data) {
+    updateOutput(_id, readStream(data));
+  }));
+
+  proc.stderr.on('data', Meteor.bindEnvironment(function (data) {
+    updateOutput(_id, readStream(data));
+  }));
+
+  proc.on('error', Meteor.bindEnvironment(function (error) {
+    updateOutput(_id, String(error));
+  }));
+
+  proc.on('close', Meteor.bindEnvironment(function (code, signal) {
+    if (_.isNull(code)) {
+      updateOutput(_id, "[system] Process was closed with signal " + signal);
+      code = -1;
+    }
+
+    Actions.update(_id, {$set: {exitCode: code}});
+  }));
+
+  return _id;
+};
+
 
 Meteor.methods({
-  runCommand: function (command, path) {
-    var parts = command.split(' ');
-    var cmd = parts[0];
-    var args = parts.splice(1, parts.length);
-
-    var proc = spawn(cmd, args, {
-      cwd: path,
-      env: {
-        'PYTHONUNBUFFERED' : 'true',
-        'PYTHONPATH'       : path
-      }
-    });
-
-    var _id = Actions.insert({command: command, pid: proc.pid});
-
-    proc.stdout.on('data', Meteor.bindEnvironment(function (data) {
-      updateOutput(_id, readStream(data));
-    }));
-
-    proc.stderr.on('data', Meteor.bindEnvironment(function (data) {
-      updateOutput(_id, readStream(data));
-    }));
-
-    proc.on('error', Meteor.bindEnvironment(function (error) {
-      updateOutput(_id, String(error));
-    }));
-
-    proc.on('close', Meteor.bindEnvironment(function (code, signal) {
-      if (_.isNull(code)) {
-        updateOutput(_id, "[system] Process was closed with signal " + signal);
-        code = -1;
-      }
-
-      Actions.update(_id, {$set: {exitCode: code}});
-    }));
-
-    return _id;
-  },
-
   runApplication: function (request) {
     var app = Applications.findOne(request.applicationId);
     var parameters = app.parameters || [];
@@ -83,11 +83,11 @@ Meteor.methods({
       }
     }
 
-    return Meteor.call('runCommand', app.command + paramString, app.path);
+    return runCommand(app.command + paramString, app.path);
   },
 
-  kill: function (_id) {
-    var proc = Actions.findOne(_id);
+  killAction: function (actionId) {
+    var proc = Actions.findOne(actionId);
     if (proc && proc.pid && _.isNull(proc.exitCode)) {
       process.kill(proc.pid, 'SIGTERM');
     }

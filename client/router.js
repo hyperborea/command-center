@@ -7,6 +7,14 @@ Meteor.subscribe('actions', function () {
 Meteor.subscribe('applications');
 Meteor.subscribe('tasks');
 
+var requireRole = function (role, route) {
+  if (!hasRole(Meteor.user(), role) && !Meteor.loggingIn()) {
+    route.render('login');
+  } else {
+    route.next();
+  }
+};
+
 
 Router.configure({
   layoutTemplate: 'layout'
@@ -19,15 +27,14 @@ Router.route('/', {
 
 Router.route('/login');
 Router.onBeforeAction(function () {
-  if (!Meteor.userId()) {
-    this.render('login');
-  } else {
-    this.next();
-  }
+  return requireRole('user', this);
 });
 
 Router.route('/applications', {
-  template: 'applications'
+  template: 'applications',
+  onBeforeAction: function () {
+    return requireRole('admin', this);
+  }
 });
 
 Router.route('/workflow', {

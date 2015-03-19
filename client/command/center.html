@@ -1,10 +1,4 @@
 <template name="center">
-  {{#contentFor "toolbox"}}
-    <a class="item js-nuke">
-      <i class="military icon"></i> clear history
-    </a>
-  {{/contentFor}}
-
   {{> commandForm}}
 
   <div class="ui two column grid segment">
@@ -23,6 +17,9 @@
     {{#each actions}}
       <div class="item {{itemClass}}">
         <i class="right floated {{statusIcon}}"></i>
+        {{#if isOwn}}
+          <i class="right floated user icon"></i>
+        {{/if}}
         {{#if isRunning}}
           <div class="ui right floated basic circular compact mini button js-kill" style="margin-right: 1em">kill</div>
         {{/if}}
@@ -36,14 +33,29 @@
 </template>
 
 <template name="commandOutput">
-  <div class="ui list">
+  <div class="">
     {{#each rows}}
       <div class="item">{{this}}</div>
     {{/each}}
   </div>
 
-  <div class="ui mini inverted green basic circular button js-export">
-    <i class="cloud download icon"></i>
-    download
+  <div class="buttons">
+    <div class="ui mini inverted green basic circular animated button js-fullscreen">
+      <div class="visible content"><i class="expand icon"></i></div>
+      <div class="hidden content">fullscreen</div>
+    </div>
+
+    <div class="ui mini inverted green basic circular animated button js-export">
+      <div class="visible content"><i class="cloud download icon"></i></div>
+      <div class="hidden content">download</div>
+    </div>
+  </div>
+
+  <div class="ui basic fullscreen code modal">
+    <div class="">
+      {{#each rows}}
+        <div class="item">{{this}}</div>
+      {{/each}}
+    </div>
   </div>
 </template>

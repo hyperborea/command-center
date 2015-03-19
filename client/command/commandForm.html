@@ -1,16 +1,5 @@
 <template name="commandForm">
   <div class="ui basic segment">
-    <form class="ui form">
-      <div class="field">
-        <div class="ui left icon input">
-          <input name="command" autofocus autocomplete="off" />
-          <i class="dollar icon"></i>
-        </div>
-      </div>
-    </form>
-    
-    <div class="ui horizontal divider">or</div>
-
     {{> inputApplication}}
   </div>
 </template>
@@ -26,13 +15,16 @@
           <input type="hidden" name="applicationId" value={{selectedApplication._id}}>
           <div class="menu">
             {{#each applications}}
-              <div class="item" data-value="{{_id}}">{{name}}</div>
+              <div class="item" data-value="{{_id}}">
+                {{name}}
+                <div class="description">{{description}}</div>
+              </div>
             {{/each}}
           </div>
         </div>
       </div>
 
-      <div class="ten wide field">
+      <div class="two wide field">
         {{#if selectedApplication}}
           <div class="ui left labeled icon basic green submit button">
             <i class="icon play"></i> run

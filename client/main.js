@@ -4,8 +4,8 @@ Template.topbar.helpers({
   }
 });
 
-Template.topbar.events({
-  'click .js-nuke': function () {
-    Meteor.call('nuke');
+Template.login.helpers({
+  'loggedIn': function () {
+    return Meteor.userId();
   }
 });

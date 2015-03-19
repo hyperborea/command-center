@@ -1,4 +1,6 @@
 Template.applicationForm.created = function () {
+  this.formChanged = new ReactiveVar(false);
+  this.showSettings = new ReactiveVar(false);
   this.showParameters = new ReactiveVar(false);
 };
 
@@ -11,8 +13,24 @@ Template.applicationForm.helpers({
     return this._id;
   },
 
+  buttonsClass: function () {
+    return Template.instance().formChanged.get() ? null : 'invisible';
+  },
+
   showParameters: function () {
     return Template.instance().showParameters.get();
+  },
+
+  showSettings: function () {
+    return Template.instance().showSettings.get();
+  },
+  settingsClass: function () {
+    return Template.instance().showSettings.get() ? null : 'invisible';
+  },
+
+  showAny: function () {
+    var template = Template.instance();
+    return template.showParameters.get() || template.showSettings.get();
   },
 
   parametersCount: function () {
@@ -36,15 +54,16 @@ Template.applicationForm.events({
     template.find('.reset.button').click();
   },
 
-  'reset': function (e, template) {
-    console.log(e);
-  },
-
   'click .reset.button': function(e, template) {
     template.$('.application.form').form('reset');
     template.$('.parameter.form').each(function() {
       $(this).form('reset');
     });
+    template.formChanged.set(false);
+  },
+
+  'keypress input, change': function (e, template) {
+    template.formChanged.set(true);
   },
 
   'click .js-delete': function (e, template) {
@@ -54,8 +73,17 @@ Template.applicationForm.events({
   },
 
   'click .js-toggle-parameters': function (e, template) {
-    var showParam = template.showParameters;
-    showParam.set(!showParam.get());
+    var showParams = template.showParameters;
+    showParams.set(!showParams.get());
+
+    template.showSettings.set(false);
+  },
+
+  'click .js-toggle-settings': function (e, template) {
+    var showSettings = template.showSettings;
+    showSettings.set(!showSettings.get());
+
+    template.showParameters.set(false);
   }
 });
 

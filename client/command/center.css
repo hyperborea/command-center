@@ -1,16 +1,22 @@
 .code-output {
   background-color: #252525;
+}
+.code-output, .ui.code.modal {
   color: rgb(31, 235, 31);
   font-family: monospace;
-  font-size: 1.5em;
 }
 
-.code-output .js-export {
+.code-output .buttons {
   display: none;
 }
-.code-output:hover .js-export {
+.code-output .buttons .button {
+  display: block;
+  margin-bottom: 1em;
+  width: 7em;
+}
+.code-output:hover .buttons {
   display: inline-block;
   position: absolute;
-  top: 2em;
-  right: 2em;
+  top: 1em;
+  right: 1em;
 }

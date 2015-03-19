@@ -1,3 +1,10 @@
+Template.center.events({
+  'click .js-modal': function (e, template) {
+    $('.modal').modal('show');
+  }
+});
+
+
 Template.commandHistory.helpers({
   actions: function () {
     return Actions.find({}, {sort: {createdAt: -1}});
@@ -21,6 +28,9 @@ Template.commandHistory.helpers({
   },
   isRunning: function () {
     return _.isNull(this.exitCode);
+  },
+  isOwn: function () {
+    return this.createdBy == Meteor.userId();
   }
 });
 
@@ -30,7 +40,7 @@ Template.commandHistory.events({
   },
 
   'click .js-kill': function (e, template) {
-    Meteor.call('kill', this._id);
+    Meteor.call('killAction', this._id);
   }
 });
 
@@ -43,6 +53,10 @@ Template.commandOutput.helpers({
 });
 
 Template.commandOutput.events({
+  'click .js-fullscreen': function (e, template) {
+    $('.modal').modal('show');
+  },
+  
   'click .js-export': function (e, template) {
     var filename = prompt("Download output under filename", "export.txt");
 
