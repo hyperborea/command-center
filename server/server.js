@@ -64,10 +64,11 @@ Meteor.methods({
 
   runApplication: function (request) {
     var app = Applications.findOne(request.applicationId);
+    var parameters = app.parameters || [];
     var paramString = "";
 
-    for (var i=0; i<app.parameters.length; i++) {
-      var p = app.parameters[i];
+    for (var i=0; i<parameters.length; i++) {
+      var p = parameters[i];
       var providedValue = request.hasOwnProperty(p.param) ? String( request[p.param] ) : null;
 
       if (providedValue) {

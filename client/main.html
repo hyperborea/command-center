@@ -24,6 +24,17 @@
 
     <div class="right menu">
       {{> yield "toolbox"}}
+      <div class="header item">
+        {{username}}
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="login">
+  <div class="ui page grid">
+    <div class="column">
+      {{> atForm}}      
     </div>
   </div>
 </template>
