@@ -21,7 +21,7 @@ var updateOutput = function (_id, buffer) {
   });
 };
 
-var runCommand = function (command, path) {
+var runCommand = function (command, path, request) {
   var parts = command.split(' ');
   var cmd = parts[0];
   var args = parts.splice(1, parts.length);
@@ -34,7 +34,7 @@ var runCommand = function (command, path) {
     }
   });
 
-  var _id = Actions.insert({command: command, pid: proc.pid});
+  var _id = Actions.insert({command: command, pid: proc.pid, request: request});
 
   proc.stdout.on('data', Meteor.bindEnvironment(function (data) {
     updateOutput(_id, readStream(data));
@@ -83,7 +83,7 @@ Meteor.methods({
       }
     }
 
-    return runCommand(app.command + paramString, app.path);
+    return runCommand(app.command + paramString, app.path, request);
   },
 
   killAction: function (actionId) {

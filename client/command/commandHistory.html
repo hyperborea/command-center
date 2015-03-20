@@ -1,0 +1,20 @@
+<template name="commandHistory">
+  <div class="ui selection list command-history">
+    {{#each actions}}
+      <div class="item {{itemClass}}">
+        <i class="right floated {{statusIcon}}"></i>
+        {{#if isOwn}}
+          <i class="right floated user icon"></i>
+        {{/if}}
+        {{#if isRunning}}
+          <div class="ui right floated basic circular compact mini button js-kill" style="margin-right: 1em">kill</div>
+        {{/if}}
+        <i class={{activeIcon}}></i>
+        <div class="content">
+          {{command}}
+          <i class="copy icon"></i>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+</template>

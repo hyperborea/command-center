@@ -4,14 +4,19 @@ Template.inputApplication.helpers({
   },
 
   selectedApplication: function () {
-    return Session.get('selectedApplication');
+    var request = Session.get('commandRequest');
+    return request && Applications.findOne(request.applicationId);
   }
 });
 
 Template.inputApplication.events({
   'change input[name=applicationId]': function (e, template) {
-    var appId = Applications.findOne(e.target.value);
-    Session.set('selectedApplication', appId);
+    var newAppId = e.target.value;
+
+    // Only trigger when the application has actuall changed.
+    if (newAppId !== Session.get('commandRequest').applicationId) {
+      Session.set('commandRequest', { applicationId: newAppId });
+    }
   },
 
   'submit': function (e, template) {
@@ -34,16 +39,18 @@ Template.inputApplication.rendered = function () {
   template.$('.ui.dropdown').dropdown();
 
   template.autorun(function () {
-    var app = Session.get('selectedApplication');
+    var request = Session.get('commandRequest');
+    var app = request && Applications.findOne(request.applicationId);
 
     if (app) {
-      template.$('.ui.dropdown').dropdown('set value', app._id);
+      template.$('.ui.dropdown').dropdown('set selected', app._id);
 
       var paramSchema = {};
       var paramDefaults  = {};
       _.each(app.parameters, function (param) {
+        var paramName = param.param;
         var schema = {
-          identifier: param.param,
+          identifier: paramName,
           rules: []
         };
 
@@ -54,10 +61,13 @@ Template.inputApplication.rendered = function () {
           });
         }
 
-        paramSchema[param.param] = schema;
+        paramSchema[paramName] = schema;
 
         var defaultValue = null;
-        if (param.default) {
+        if (request.hasOwnProperty(paramName)) {
+          defaultValue = request[paramName];
+        }
+        else if (param.default) {
           switch (param.type) {
             case 'bool':
               defaultValue = (param.default == 'true');
@@ -71,7 +81,7 @@ Template.inputApplication.rendered = function () {
               defaultValue = param.default;
           }
         }
-        paramDefaults[param.param] = defaultValue;
+        paramDefaults[paramName] = defaultValue;
       });
 
       // Need to wait until parameter form elements have been rendered.
@@ -81,7 +91,7 @@ Template.inputApplication.rendered = function () {
         form.form('destroy');
         form.find('.submit').off('click'); // https://github.com/Semantic-Org/Semantic-UI/pull/1978
 
-        form.form(paramSchema, { inline: true });
+        form.form(paramSchema, { inline: true, keyboardShortcuts: false });
         form.form('set values', paramDefaults);
       });
     }

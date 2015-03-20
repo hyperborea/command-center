@@ -1,5 +1,5 @@
 // Subscribe to Action-Collection and preselect latest.
-Meteor.subscribe('actions', function () {
+Meteor.subscribe('actions', 20, function () {
   var action = Actions.findOne({}, {sort: {createdAt: -1}});
   Session.set('selectedAction', action ? action._id : null);
 });

@@ -1,0 +1,7 @@
+.command-history .copy.icon {
+  margin-left: 1em;
+  display: none;
+}
+.command-history .item:hover .copy.icon {
+  display: inline-block;
+}
