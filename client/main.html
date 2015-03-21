@@ -19,15 +19,23 @@
       Applications
     </a>
     {{/if}}
+    {{#if isInRole 'admin'}}
+    <a href="{{urlFor route='users'}}" class="item {{isActiveRoute regex='users'}}">
+      <i class="users icon"></i>
+      Users
+    </a>
+    {{/if}}
+    {{#if isInRole 'lab'}}
     <a href="{{urlFor route='workflow'}}" class="item {{isActiveRoute regex='workflow'}}">
       <i class="circle notched icon"></i>
       Workflow
     </a>
+    {{/if}}
 
     <div class="right menu">
       {{> yield "toolbox"}}
       <div class="header item">
-        {{username}}
+        {{user.username}}
       </div>
     </div>
   </div>

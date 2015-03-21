@@ -12,9 +12,10 @@ Template.inputApplication.helpers({
 Template.inputApplication.events({
   'change input[name=applicationId]': function (e, template) {
     var newAppId = e.target.value;
+    var request = Session.get('commandRequest');
 
-    // Only trigger when the application has actuall changed.
-    if (newAppId !== Session.get('commandRequest').applicationId) {
+    // Only trigger when the application has actually changed.
+    if (!request || newAppId !== request.applicationId) {
       Session.set('commandRequest', { applicationId: newAppId });
     }
   },

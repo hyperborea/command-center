@@ -37,6 +37,13 @@ Router.route('/applications', {
   }
 });
 
+Router.route('/users', {
+  template: 'users',
+  onBeforeAction: function () {
+    return requireRole('admin', this);
+  }
+});
+
 Router.route('/workflow', {
   template: 'workflow'
 });

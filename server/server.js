@@ -34,7 +34,7 @@ var runCommand = function (command, path, request) {
     }
   });
 
-  var _id = Actions.insert({command: command, pid: proc.pid, request: request});
+  var _id = Actions.insert({command: command, pid: proc.pid, path: path, request: request});
 
   proc.stdout.on('data', Meteor.bindEnvironment(function (data) {
     updateOutput(_id, readStream(data));
@@ -63,7 +63,11 @@ var runCommand = function (command, path, request) {
 
 Meteor.methods({
   runApplication: function (request) {
+    requireRole(this.userId, 'user');
+
     var app = Applications.findOne(request.applicationId);
+    requireRole(this.userId, ['admin'].concat(app.roles || []));
+
     var parameters = app.parameters || [];
     var paramString = "";
 
@@ -87,13 +91,21 @@ Meteor.methods({
   },
 
   killAction: function (actionId) {
+    requireRole(this.userId, 'user');
+
     var proc = Actions.findOne(actionId);
     if (proc && proc.pid && _.isNull(proc.exitCode)) {
       process.kill(proc.pid, 'SIGTERM');
     }
   },
 
+  updateRoles: function (targetUserId, roles) {
+    requireRole(this.userId, 'admin');
+    Roles.setUserRoles(targetUserId, roles);
+  },
+
   nuke: function () {
+    requireRole(this.userId, 'admin');
     Actions.remove({});
   }
 });

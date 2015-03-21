@@ -13,6 +13,7 @@ callback-hook@1.0.3
 check@1.0.5
 coffeescript@1.0.6
 d3js:d3@3.5.5
+dburles:collection-helpers@1.0.2
 dburles:mongo-collection-instances@0.3.3
 ddp@1.1.0
 deps@1.0.7
@@ -33,6 +34,7 @@ iron:location@1.0.7
 iron:middleware-stack@1.0.7
 iron:router@1.0.7
 iron:url@1.0.7
+jeremy:selectize@0.12.1
 jquery@1.11.3_2
 json@1.0.3
 lai:collection-extensions@0.1.3
@@ -59,7 +61,7 @@ reactive-var@1.0.5
 reload@1.1.3
 retry@1.0.3
 routepolicy@1.0.5
-semantic:ui-css@1.11.2
+semantic:ui-css@1.11.4
 service-configuration@1.0.4
 session@1.1.0
 sha@1.0.3

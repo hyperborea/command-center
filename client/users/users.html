@@ -1,0 +1,25 @@
+<template name="users">
+  {{#each users}}
+    {{> userRolesForm}}
+  {{/each}}
+</template>
+
+<template name="userRolesForm">
+  <div class="ui form segment">
+    <h4 class="ui header">{{username}}</h4>
+
+    <div class="fields">
+      <div class="thirteen wide field">
+        <input type="text" name="roles" placeholder="select roles">
+      </div>
+
+      <div class="three wide field">
+        <div class="ui buttons {{buttonsClass}}">
+          <div class="ui reset button">Cancel</div>
+          <div class="or"></div>
+          <div class="ui positive submit button">Save</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

@@ -1,6 +1,6 @@
 Template.topbar.helpers({
-  'username': function () {
-    return Meteor.user() && Meteor.user().emails[0].address;
+  'user': function () {
+    return Meteor.user();
   }
 });
 
