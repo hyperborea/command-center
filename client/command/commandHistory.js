@@ -12,7 +12,7 @@ Template.commandHistory.onCreated(function () {
   });
 });
 
-Template.commandHistory.helpers({
+Template.commandHistoryList.helpers({
   actions: function () {
     return Actions.find({}, {sort: {createdAt: -1}});
   },
@@ -27,7 +27,7 @@ Template.commandHistory.helpers({
   }
 });
 
-Template.commandHistory.events({
+Template.commandHistoryList.events({
   'click .js-load-more': function (e, template) {
     Session.set('historyLimit', Session.get('historyLimit') + LIMIT_INCREMENT);
   }
@@ -37,10 +37,6 @@ Template.commandHistory.events({
 Template.commandHistoryItem.helpers({
   itemClass: function () {
     return Session.equals('selectedAction', this._id) ? 'active': null;
-  },
-
-  activeIcon: function () {
-    return Session.equals('selectedAction', this._id) ? 'unhide icon': 'angle right icon';
   },
 
   statusIcon: function () {
@@ -60,6 +56,20 @@ Template.commandHistoryItem.helpers({
 
   isOwn: function () {
     return this.createdBy == Meteor.userId();
+  },
+
+  applicationName: function () {
+    return Applications.findOne(this.request.applicationId).name;
+  },
+
+  requestSummary: function () {
+    var reqs = [];
+    _.each(this.request, function (v, k) {
+      if (k !== 'applicationId') {
+        reqs.push( k + " = " + v );
+      }
+    });
+    return reqs.join(', ');
   }
 });
 

@@ -1,19 +1,7 @@
 <template name="commandHistory">
   <div class="ui two column grid segment">
-    <div class="column">
-      <div class="ui selection list command-history">
-        {{#each actions}}
-          {{> commandHistoryItem}}
-        {{/each}}
-      </div>
-
-      {{#if hasMore}}
-      <center>
-        <div class="ui basic {{loading}} button js-load-more">
-          load more
-        </div>
-      </center>
-      {{/if}}
+    <div class="column command-history">
+      {{> commandHistoryList}}
     </div>
 
     <div class="column code-output">
@@ -22,6 +10,26 @@
   </div>
 </template>
 
+
+<template name="commandHistoryList">
+  <em>Filters coming soon</em>
+
+  <div class="ui divider"></div>
+
+  <div class="ui selection list">
+    {{#each actions}}
+      {{> commandHistoryItem}}
+    {{/each}}
+  </div>
+
+  {{#if hasMore}}
+  <center>
+    <div class="ui basic {{loading}} button js-load-more">
+      load more
+    </div>
+  </center>
+  {{/if}}
+</template>
 
 <template name="commandHistoryItem">
   <div class="item {{itemClass}}">
@@ -32,9 +40,11 @@
     {{#if isRunning}}
       <div class="ui right floated basic circular compact mini button js-kill" style="margin-right: 1em">kill</div>
     {{/if}}
-    <i class={{activeIcon}}></i>
+
+    <i class="angle right icon"></i>
     <div class="content">
-      {{command}}
+      <div class="ui ribbon label">{{applicationName}}</div>
+      <small>{{requestSummary}}</small>
       <i class="copy icon"></i>
     </div>
   </div>

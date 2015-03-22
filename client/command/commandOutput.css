@@ -10,7 +10,7 @@
   display: none;
 }
 .code-output .buttons .button {
-  display: block;
+  /*display: block;*/
   margin-bottom: 1em;
   width: 7em;
 }

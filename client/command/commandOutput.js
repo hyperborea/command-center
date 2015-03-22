@@ -1,4 +1,9 @@
 Template.commandOutput.helpers({
+  command: function () {
+    var action = Actions.findOne(Session.get('selectedAction'));
+    return action ? action.command : null;
+  },
+
   rows: function () {
     var action = Actions.findOne(Session.get('selectedAction'));
     return action ? action.output : [];
