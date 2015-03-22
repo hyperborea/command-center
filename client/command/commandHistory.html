@@ -1,20 +1,41 @@
 <template name="commandHistory">
-  <div class="ui selection list command-history">
-    {{#each actions}}
-      <div class="item {{itemClass}}">
-        <i class="right floated {{statusIcon}}"></i>
-        {{#if isOwn}}
-          <i class="right floated user icon"></i>
-        {{/if}}
-        {{#if isRunning}}
-          <div class="ui right floated basic circular compact mini button js-kill" style="margin-right: 1em">kill</div>
-        {{/if}}
-        <i class={{activeIcon}}></i>
-        <div class="content">
-          {{command}}
-          <i class="copy icon"></i>
-        </div>
+  <div class="ui two column grid segment">
+    <div class="column">
+      <div class="ui selection list command-history">
+        {{#each actions}}
+          {{> commandHistoryItem}}
+        {{/each}}
       </div>
-    {{/each}}
+
+      {{#if hasMore}}
+      <center>
+        <div class="ui basic {{loading}} button js-load-more">
+          load more
+        </div>
+      </center>
+      {{/if}}
+    </div>
+
+    <div class="column code-output">
+      {{> commandOutput}}
+    </div>
+  </div>
+</template>
+
+
+<template name="commandHistoryItem">
+  <div class="item {{itemClass}}">
+    <i class="right floated {{statusIcon}}"></i>
+    {{#if isOwn}}
+      <i class="right floated user icon"></i>
+    {{/if}}
+    {{#if isRunning}}
+      <div class="ui right floated basic circular compact mini button js-kill" style="margin-right: 1em">kill</div>
+    {{/if}}
+    <i class={{activeIcon}}></i>
+    <div class="content">
+      {{command}}
+      <i class="copy icon"></i>
+    </div>
   </div>
 </template>

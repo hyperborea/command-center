@@ -1,3 +1,7 @@
+Template.workflow.onCreated(function () {
+  this.subscribe('tasks');
+});
+
 Template.workflow.helpers({
   rootTasks: function () {
     return Tasks.find({root: true});
