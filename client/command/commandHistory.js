@@ -1,7 +1,6 @@
 var LIMIT_INCREMENT = 20;
 Session.setDefault('historyLimit', LIMIT_INCREMENT);
 
-
 Template.commandHistory.onCreated(function () {
   var template = this;
 
@@ -19,7 +18,8 @@ Template.commandHistory.helpers({
   },
 
   hasMore: function () {
-    return Actions.find().count() == Session.get('historyLimit');
+    var ready = Template.instance().subscriptionsReady();
+    return !ready || Actions.find().count() == Session.get('historyLimit');
   },
 
   loading: function () {
