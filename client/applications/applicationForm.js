@@ -1,8 +1,8 @@
-Template.applicationForm.created = function () {
+Template.applicationForm.onCreated(function () {
   this.formChanged = new ReactiveVar(false);
   this.showSettings = new ReactiveVar(false);
   this.showParameters = new ReactiveVar(false);
-};
+});
 
 Template.applicationForm.helpers({
   saveLabel: function () {
@@ -43,15 +43,26 @@ Template.applicationForm.events({
     var application = template.$('.application.form').form('get values');
 
     if (template.showParameters.get()) {
-      var parameters = _.map(template.$('.parameter'), function (param){
-        return $(param).form('get values');
+      var parameters = _.map(template.$('.parameter'), function (param) {
+        // The _id is needed so Blaze can keep track of the elements when redrawing the DOM.
+        var data = $(param).form('get values');
+        if (!data.hasOwnProperty('_id')) data['_id'] = (new Mongo.ObjectID())._str;
+
+        return data;
       });
 
       application['parameters'] = _.filter(parameters, function (param) { return param.param; });
     }
 
-    var f = (this._id) ? Applications.update(this._id, {$set: application}) : Applications.insert(application);
-    template.find('.reset.button').click();
+    var callback = function () {
+      template.find('.reset.button').click();
+    };
+
+    if (this._id) {
+      Applications.update(this._id, {$set: application}, callback);
+    } else {
+      Applications.insert(application, callback);
+    }
   },
 
   'click .reset.button': function(e, template) {
@@ -87,7 +98,7 @@ Template.applicationForm.events({
   }
 });
 
-Template.applicationForm.rendered = function () {
+Template.applicationForm.onRendered(function () {
   var template = this;
 
   template.$('.application.form').form({
@@ -117,4 +128,4 @@ Template.applicationForm.rendered = function () {
   template.autorun(function () {
     template.$('.application.form').form('set values', Blaze.getData());
   });
-};
+});

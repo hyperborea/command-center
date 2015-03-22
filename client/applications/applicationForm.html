@@ -43,13 +43,7 @@
   </div>
 
   {{#if showParameters}}
-    {{#with type="" isNew=true}}
-      {{> applicationFormParameter}}
-    {{/with}}
-
-    {{#each parameters}}
-      {{> applicationFormParameter}}
-    {{/each}}
+    {{> applicationFormParameterList}}
   {{/if}}
 
   {{#if showAny}}

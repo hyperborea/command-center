@@ -1,3 +1,19 @@
+Template.applicationFormParameterList.onRendered(function () {
+  var template = this;
+
+  template.sortable = Sortable.create(this.find('.parameters'), {
+    handle   : '.move',
+    onUpdate : function () {
+      template.parent().formChanged.set(true);
+    }
+  });
+});
+
+Template.applicationFormParameterList.onDestroyed(function () {
+  this.sortable.destroy();
+});
+
+
 Template.applicationFormParameter.rendered = function () {
   var template = this;
 
@@ -17,7 +33,7 @@ Template.applicationFormParameter.helpers({
     return ['text', 'month', 'bool'];
   },
 
-  selected: function () {
+  selectedType: function () {
     return (this == Template.parentData().type) ? 'selected' : null;
   }
 });

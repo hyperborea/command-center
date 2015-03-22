@@ -1,7 +1,25 @@
+<template name="applicationFormParameterList">
+  {{#with type="" isNew=true}}
+    {{> applicationFormParameter}}
+  {{/with}}
+
+  <div class="parameters">
+  {{#each parameters}}
+    {{> applicationFormParameter}}
+  {{/each}}
+  </div>
+</template>
+
 <template name="applicationFormParameter">
   <div class="ui parameter form">
     <div class="fields">
-      <div class="one wide field"></div>
+      <div class="one wide field">
+        {{#unless isNew}}
+          <div class="ui right floated basic icon button">
+            <i class="move icon"></i>
+          </div>
+        {{/unless}}
+      </div>
 
       <div class="field">
         <input name="param" value={{param}} placeholder="Parameter">
@@ -18,7 +36,7 @@
         <select name="type" value={{type}} class="ui dropdown">
           <option value="">- choose type -</option>
           {{#each types}}
-            <option value={{this}} {{selected}}>{{this}}</option>
+            <option value={{this}} {{selectedType}}>{{this}}</option>
           {{/each}}
         </select>
       </div>
