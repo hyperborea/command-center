@@ -22,7 +22,7 @@ var updateOutput = function (_id, buffer) {
 };
 
 var runCommand = function (command, path, request) {
-  var parsed = spawnargs(command);
+  var parsed = spawn_args(command);
   var proc = spawn(_.first(parsed), _.rest(parsed), {
     cwd: path,
     env: {
