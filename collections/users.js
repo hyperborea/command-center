@@ -1,5 +1,5 @@
 Meteor.users.helpers({
-  username: function () {
-    return this.emails[0].address;
+  name: function () {
+    return this.username || this.emails[0].address;
   }
 });
