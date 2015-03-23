@@ -22,11 +22,8 @@ var updateOutput = function (_id, buffer) {
 };
 
 var runCommand = function (command, path, request) {
-  var parts = command.split(' ');
-  var cmd = parts[0];
-  var args = parts.splice(1, parts.length);
-
-  var proc = spawn(cmd, args, {
+  var parsed = spawnargs(command);
+  var proc = spawn(_.first(parsed), _.rest(parsed), {
     cwd: path,
     env: {
       'PYTHONUNBUFFERED' : 'true',
@@ -34,7 +31,12 @@ var runCommand = function (command, path, request) {
     }
   });
 
-  var _id = Actions.insert({command: command, pid: proc.pid, path: path, request: request});
+  var _id = Actions.insert({
+    command : command,
+    pid     : proc.pid,
+    path    : path,
+    request : request
+  });
 
   proc.stdout.on('data', Meteor.bindEnvironment(function (data) {
     updateOutput(_id, readStream(data));
@@ -77,7 +79,7 @@ Meteor.methods({
 
       if (providedValue) {
         if (p.type == 'text') providedValue = '"' + providedValue + '"';
-        
+
         if (p.kw) {
           paramString += " " + p.param + " " + providedValue;
         } else {
