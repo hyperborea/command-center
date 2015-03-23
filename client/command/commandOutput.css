@@ -11,7 +11,7 @@
 }
 .code-output .buttons .button {
   /*display: block;*/
-  margin-bottom: 1em;
+  /*margin-bottom: 1em;*/
   width: 7em;
 }
 .code-output:hover .buttons {
@@ -19,4 +19,5 @@
   position: absolute;
   top: 1em;
   right: 1em;
+  background-color: #252525;
 }
