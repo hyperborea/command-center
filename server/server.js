@@ -78,7 +78,16 @@ Meteor.methods({
       var providedValue = request.hasOwnProperty(p.param) ? String( request[p.param] ) : null;
 
       if (providedValue) {
-        if (p.type == 'text') providedValue = '"' + providedValue + '"';
+        switch (p.type) {
+          case 'text':
+            providedValue = '"' + providedValue + '"';
+            break;
+
+          case 'bool':
+            providedValue = p.param;
+            p.kw = false;
+            break;
+        }
 
         if (p.kw) {
           paramString += " " + p.param + " " + providedValue;

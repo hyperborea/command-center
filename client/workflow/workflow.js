@@ -57,9 +57,13 @@ Template.workflow.rendered = function () {
     var circles = svg.selectAll('circle').data(nodesData);
     circles.enter().append('circle');
     circles
+      .attr('class', 'incomplete')
       .attr('r', 10)
       .attr('cx', function (d) { return x(d); })
-      .attr('cy', function (d) { return y(d); });
+      .attr('cy', function (d) { return y(d); })
+      .on('click', function (d, i) {
+        d3.select(this).classed({complete: true, incomplete: false});
+      });
     circles.exit().remove();
   });
 };

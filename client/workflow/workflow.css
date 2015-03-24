@@ -7,3 +7,10 @@
   fill: none;
   stroke: black;
 }
+
+.workflow circle.incomplete {
+  fill: red;
+}
+.workflow circle.complete {
+  fill: green;
+}
