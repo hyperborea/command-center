@@ -12,7 +12,12 @@ Template.commandOutput.helpers({
 
 Template.commandOutput.events({
   'click .js-fullscreen': function (e, template) {
-    $('.modal').modal('show');
+    var container = $('.modal');
+    
+    container
+      .modal('destroy')
+      .modal('show')
+      .parent().scrollTop(container[0].scrollHeight);
   },
   
   'click .js-export': function (e, template) {
