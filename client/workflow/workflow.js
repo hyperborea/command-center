@@ -2,12 +2,6 @@ Template.workflow.onCreated(function () {
   this.subscribe('tasks');
 });
 
-Template.workflow.helpers({
-  rootTasks: function () {
-    return Tasks.find({root: true});
-  }
-});
-
 function taskWithDependencies (task) {
   task = task || {};
 
@@ -54,49 +48,18 @@ Template.workflow.rendered = function () {
     nodes
       .attr('class', 'node')
       .attr("text-anchor", "middle")
-      .attr('dy', -10)
+      .attr('dy', -15)
       .attr('x', function (d) { return x(d); })
       .attr('y', function (d) { return y(d); })
       .text(function (d) { return d.name; });
     nodes.exit().remove();
+
+    var circles = svg.selectAll('circle').data(nodesData);
+    circles.enter().append('circle');
+    circles
+      .attr('r', 10)
+      .attr('cx', function (d) { return x(d); })
+      .attr('cy', function (d) { return y(d); });
+    circles.exit().remove();
   });
 };
-
-
-Template.task.helpers({
-  dependencies: function () {
-    return Tasks.find({ _id: { $in: this.dependencies || [] } });
-  },
-
-  tasks: function () {
-    return Tasks.find();
-  },
-
-  isDependency: function () {
-    return Template.parentData();
-  },
-
-  showSelect: function () {
-    return Session.equals('showSelectForProcess', this._id);
-  }
-});
-
-Template.task.events({
-  'click .js-remove-dep': function (e, template) {
-    e.stopPropagation();
-
-    var parent = Template.parentData();
-    Tasks.update(parent._id, { $pull: { dependencies: this._id } });
-  },
-
-  'click .js-show-select': function (e, template) {
-    Session.set('showSelectForProcess', this._id);
-  },
-
-  'change select': function (e, template) {
-    e.stopPropagation();
-
-    Tasks.update(this._id, { $addToSet: { dependencies: e.target.value } });
-    $(e.target).val('');
-  }
-});
