@@ -26,7 +26,7 @@ Meteor.publish('applications', function () {
 Meteor.publish('users', function () {
   if (!hasRole(this.userId, 'admin')) return [];
 
-  return Meteor.users.find({}, {fields: {emails: 1, roles: 1}});
+  return Meteor.users.find({}, {fields: {username: 1, emails: 1, roles: 1}});
 });
 
 Meteor.publish('tasks', function () {
