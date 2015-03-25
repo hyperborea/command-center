@@ -2,6 +2,10 @@
   <div class="ui two column grid segment">
     <div class="column command-history">
       {{> commandHistoryList}}
+
+      {{#unless Template.subscriptionsReady}}
+        <i class="large spinner loading icon"></i>
+      {{/unless}}
     </div>
 
     <div class="column code-output">
