@@ -30,7 +30,7 @@ Template.applicationFormParameter.rendered = function () {
 
 Template.applicationFormParameter.helpers({
   types: function () {
-    return ['text', 'month', 'bool'];
+    return ['text', 'month', 'bool', 'int'];
   },
 
   selectedType: function () {

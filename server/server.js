@@ -87,10 +87,14 @@ Meteor.methods({
             providedValue = p.param;
             p.kw = false;
             break;
+
+          case 'int':
+            providedValue = parseInt(providedValue);
+            break;
         }
 
         if (p.kw) {
-          paramString += " " + p.param + " " + providedValue;
+          paramString += " --" + p.param + " " + providedValue;
         } else {
           paramString += " " + providedValue;
         }

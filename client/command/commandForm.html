@@ -43,20 +43,17 @@
 
 <template name="inputApplicationParameter">
   <div class="field">
-
-    {{#if isType 'text' 'month'}}
+    {{#if isType 'bool'}}
+      <div class="ui toggle checkbox" style="margin: .5em">
+        <input type="checkbox" name="{{param}}">
+        <label>{{param}}</label>
+      </div>
+    {{else}}
       <div class="ui labeled input">
         <div class="ui label">
           <small>{{param}}</small>
         </div>
         <input type="text" name={{param}} placeholder={{param}}>
-      </div>
-    {{/if}}
-
-    {{#if isType 'bool'}}
-      <div class="ui toggle checkbox" style="margin: .5em">
-        <input type="checkbox" name="{{param}}">
-        <label>{{param}}</label>
       </div>
     {{/if}}
   </div>
