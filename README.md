@@ -3,7 +3,8 @@ Command Center
 Command Center is a simple GUI to trigger and save output of server commands and scripts. It was created to enable non technical users
 to perform common operations in a *nix server environment without bothering with ssh and the shell.
 
-![](https://raw.githubusercontent.com/hyperborea/command-center/media/demo.gif "Command Center demo")
+![](https://raw.githubusercontent.com/hyperborea/command-center/media/Command_Center1.png "Commands page")
+![](https://raw.githubusercontent.com/hyperborea/command-center/media/Command_Center3.png "Applications page")
 
 Quick Start
 -------------
