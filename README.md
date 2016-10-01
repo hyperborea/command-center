@@ -7,9 +7,7 @@ Applications are only accessible to the user groups specified and arguments can 
 
 ![](https://raw.githubusercontent.com/hyperborea/command-center/media/Command_Center1.png "Commands page")
 
-![](https://raw.githubusercontent.com/hyperborea/command-center/media/Command_Center2.png "Applications page - settings")
-
-![](https://raw.githubusercontent.com/hyperborea/command-center/media/Command_Center3.png "Applications page - parameters")
+![](https://raw.githubusercontent.com/hyperborea/command-center/media/Command_Center3.png "Applications page")
 
 Quick Start
 -------------
