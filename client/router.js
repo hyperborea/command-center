@@ -24,6 +24,7 @@ Router.onBeforeAction(function () {
 });
 
 Router.route('/applications', {
+  name: 'applications',
   template: 'applications',
   onBeforeAction: function () {
     return requireRole('admin', this);
@@ -31,6 +32,7 @@ Router.route('/applications', {
 });
 
 Router.route('/users', {
+  name: 'users',
   template: 'users',
   onBeforeAction: function () {
     return requireRole('admin', this);
@@ -38,5 +40,6 @@ Router.route('/users', {
 });
 
 Router.route('/workflow', {
+  name: 'workflow',
   template: 'workflow'
 });
